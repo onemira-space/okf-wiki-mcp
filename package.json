@@ -1,9 +1,10 @@
 {
-  "name": "@onemira-space/okf-wiki-mcp",
-  "version": "1.0.0",
+  "name": "okf-wiki-mcp",
+  "version": "1.0.1",
   "description": "Zero-dependency offline Model Context Protocol (MCP) server & CLI for querying local Google OKF v0.2 and Obsidian Markdown meeting-notes vaults in Claude Desktop, Claude Code, Cursor & OneMira",
   "type": "module",
   "license": "MIT",
+  "author": "OneMira Engineering (https://onemira.com)",
   "homepage": "https://onemira.com/docs/mcp-integration",
   "repository": {
     "type": "git",
@@ -15,9 +16,18 @@
   "bin": {
     "okf-wiki-mcp": "./bin/okf-wiki-mcp.mjs"
   },
+  "main": "./src/index.mjs",
   "exports": {
     ".": "./src/index.mjs"
   },
+  "files": [
+    "bin/",
+    "src/",
+    "SKILL.md",
+    "server.json",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "test": "node --test test/*.test.mjs"
   },

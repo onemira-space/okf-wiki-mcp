@@ -338,7 +338,7 @@ export function handleMcpRequest(vaultDir, msg) {
         result: {
           protocolVersion: params?.protocolVersion || '2024-11-05',
           capabilities: {tools: {}, resources: {}},
-          serverInfo: {name: 'okf-wiki-mcp', version: '1.0.0'},
+          serverInfo: {name: 'okf-wiki-mcp', version: '1.0.1'},
         },
       };
     }

@@ -18,7 +18,7 @@ function readFlag(name) {
 }
 
 if (args.includes('--help') || args.includes('-h')) {
-  console.log(`okf-wiki-mcp v1.0.0 — Offline MCP Server & CLI for Google OKF v0.2 / Obsidian Markdown Vaults
+  console.log(`okf-wiki-mcp v1.0.1 — Offline MCP Server & CLI for Google OKF v0.2 / Obsidian Markdown Vaults
 
 Usage:
   okf-wiki-mcp --vault <dir> [--serve]               Start stdio MCP JSON-RPC 2.0 server
@@ -33,7 +33,7 @@ Docs: https://onemira.com/docs/mcp-integration`);
 }
 
 if (args.includes('--version') || args.includes('-v')) {
-  console.log('1.0.0');
+  console.log('1.0.1');
   process.exit(0);
 }
 
