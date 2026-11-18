@@ -12,7 +12,7 @@ Zero-dependency, 100% offline **Model Context Protocol (`MCP` JSON-RPC 2.0)** st
 
 ### Via `npx` (Zero Global Install)
 ```bash
-npx github:onemira-space/okf-wiki-mcp --vault ~/Documents/Meetings stats
+npx -y okf-wiki-mcp --vault ~/Documents/Meetings stats
 ```
 
 ### Via Homebrew (`macOS` & `Linux`)
@@ -33,7 +33,7 @@ Add to `claude_desktop_config.json` or `.cursor/mcp.json`:
   "mcpServers": {
     "okf-wiki": {
       "command": "npx",
-      "args": ["-y", "github:onemira-space/okf-wiki-mcp", "--vault", "/Users/you/Documents/Meetings", "--serve"]
+      "args": ["-y", "okf-wiki-mcp", "--vault", "/Users/you/Documents/Meetings", "--serve"]
     }
   }
 }
