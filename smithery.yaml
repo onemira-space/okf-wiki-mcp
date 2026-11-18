@@ -1,0 +1,16 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    required:
+      - vaultDir
+    properties:
+      vaultDir:
+        type: string
+        description: Absolute path to your local OKF v0.2 or Obsidian Markdown meeting-notes directory.
+  commandFunction: |-
+    (config) => ({
+      command: 'node',
+      args: ['bin/okf-wiki-mcp.mjs', '--vault', config.vaultDir, '--serve'],
+      env: { OKF_VAULT_DIR: config.vaultDir }
+    })
