@@ -1,19 +1,19 @@
 {
-  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.onemira-space/okf-wiki-mcp",
-  "description": "Zero-dependency offline MCP server for querying local Google OKF v0.2 & Obsidian Markdown meeting-notes vaults in Claude, Cursor & Windsurf.",
-  "status": "active",
+  "title": "OneMira OKF & Obsidian Wiki MCP",
+  "description": "Offline zero-dependency MCP server for local Google OKF v0.2 & Obsidian Markdown vaults.",
   "repository": {
     "url": "https://github.com/onemira-space/okf-wiki-mcp",
     "source": "github"
   },
-  "version": "1.0.1",
+  "version": "1.0.2",
   "websiteUrl": "https://onemira.com/docs/mcp-integration",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "okf-wiki-mcp",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "transport": {
         "type": "stdio"
       },
