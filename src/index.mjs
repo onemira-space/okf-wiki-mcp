@@ -279,49 +279,172 @@ export function computeVaultStats(vault) {
 export const MCP_TOOLS = [
   {
     name: 'okf_search_meetings',
-    description: 'Search local Google OKF v0.2 and Obsidian Markdown meeting transcripts/notes by keyword, speaker, tag, and date range (100% offline).',
+    title: 'Search Local Meeting Notes & Transcripts',
+    description:
+      'Search across all local Google OKF v0.2 and Obsidian Markdown meeting transcripts and notes by keyword, speaker name, tag, or ISO date range. ' +
+      'Use this first for cross-vault discovery when you do not yet know the exact note path or title; prefer okf_read_note once you have a specific file path, slug, or [[wiki-link]], and prefer okf_list_action_items for task checklists. ' +
+      'Read-only and 100% offline (zero network calls, no file modifications). Returns a relevance-ranked JSON array of matching notes with snippets and open action counts, or an empty array [] if no notes match.',
+    annotations: {
+      title: 'Search Local Meeting Notes & Transcripts',
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
     inputSchema: {
       type: 'object',
+      additionalProperties: false,
       properties: {
-        query: {type: 'string'},
-        speaker: {type: 'string'},
-        tag: {type: 'string'},
-        fromDate: {type: 'string'},
-        toDate: {type: 'string'},
-        limit: {type: 'number'},
+        query: {
+          type: 'string',
+          description:
+            'Space-separated search keywords matched case-insensitively against note titles, [[wiki-links]], and body text (e.g. "Q4 roadmap pricing"). Leave empty to filter solely by speaker, tag, or date range.',
+          default: '',
+        },
+        speaker: {
+          type: 'string',
+          description:
+            'Case-insensitive substring filter matching YAML frontmatter speakers or inline transcript speaker labels (e.g. "Alice").',
+          default: '',
+        },
+        tag: {
+          type: 'string',
+          description:
+            'Case-insensitive substring filter matching YAML frontmatter tags (e.g. "local-ai" or "roadmap").',
+          default: '',
+        },
+        fromDate: {
+          type: 'string',
+          description:
+            'Inclusive lower-bound ISO-8601 date filter (YYYY-MM-DD, e.g. "2026-11-01"). Notes without a date field are retained unless excluded by other filters.',
+          default: '',
+        },
+        toDate: {
+          type: 'string',
+          description:
+            'Inclusive upper-bound ISO-8601 date filter (YYYY-MM-DD, e.g. "2026-11-30").',
+          default: '',
+        },
+        limit: {
+          type: 'integer',
+          description:
+            'Maximum number of ranked meeting notes to return (clamped between 1 and 50).',
+          default: 10,
+          minimum: 1,
+          maximum: 50,
+        },
       },
     },
   },
   {
     name: 'okf_list_action_items',
-    description: 'Extract open or completed Markdown task items (- [ ] / - [x]) and @owner assignments across local meeting notes.',
+    title: 'List Meeting Action Items',
+    description:
+      'Extract Markdown task checklist items (- [ ] open or - [x] completed) and @owner / bold-owner assignments across all local meeting notes in the vault. ' +
+      'Use this for follow-up tracking, standups, and accountability reviews; prefer okf_search_meetings for general topic search or okf_read_note for full meeting context around a task. ' +
+      'Read-only and 100% offline. Returns a JSON array of action item objects containing file, line, completed, owner, text, title, and date, or [] when none match.',
+    annotations: {
+      title: 'List Meeting Action Items',
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
     inputSchema: {
       type: 'object',
+      additionalProperties: false,
       properties: {
-        status: {type: 'string', enum: ['open', 'completed', 'all']},
-        owner: {type: 'string'},
-        limit: {type: 'number'},
+        status: {
+          type: 'string',
+          enum: ['open', 'completed', 'all'],
+          description:
+            'Filter checklist items by completion state: "open" for unchecked (- [ ]), "completed" for checked (- [x]), or "all" for both.',
+          default: 'open',
+        },
+        owner: {
+          type: 'string',
+          description:
+            'Case-insensitive substring filter matching the extracted @owner or **Owner**: assignee (e.g. "Alice"). Leave empty to include unassigned and all owners.',
+          default: '',
+        },
+        limit: {
+          type: 'integer',
+          description:
+            'Maximum number of action items to return (clamped between 1 and 200).',
+          default: 50,
+          minimum: 1,
+          maximum: 200,
+        },
       },
     },
   },
   {
     name: 'okf_read_note',
-    description: 'Read a specific local OKF/Obsidian Markdown note by path, slug, or [[wiki-link]], including frontmatter and incoming backlinks.',
+    title: 'Read Local OKF Note with Backlinks',
+    description:
+      'Read the complete Markdown content, parsed YAML frontmatter, outgoing [[wiki-links]], incoming backlinks, and extracted action items for a single known note. ' +
+      'Use this after discovering a note via okf_search_meetings, okf_list_action_items, or okf_topic_graph; do not use it for fuzzy keyword search across multiple files. ' +
+      'Read-only and 100% offline. Returns a structured JSON note object, or sets isError: true with a "Note not found" message if no file path, slug, or title matches target.',
+    annotations: {
+      title: 'Read Local OKF Note with Backlinks',
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
     inputSchema: {
       type: 'object',
+      additionalProperties: false,
       required: ['target'],
-      properties: {target: {type: 'string'}},
+      properties: {
+        target: {
+          type: 'string',
+          description:
+            'Exact relative file path (e.g. "2026-11-15-architecture-sync.md"), filename slug (e.g. "local-ai-pipeline"), note title, or [[wiki-link]] reference (e.g. "[[Local AI Pipeline]]").',
+          minLength: 1,
+        },
+      },
     },
   },
   {
     name: 'okf_topic_graph',
-    description: 'Build the relational [[wiki-link]] topic graph and list unresolved links across the local Markdown vault.',
-    inputSchema: {type: 'object', properties: {}},
+    title: 'Build Relational Wiki-Link Topic Graph',
+    description:
+      'Compute the directed [[wiki-link]] knowledge graph across all Markdown notes in the local vault, ranking the most referenced topics and identifying unresolved (dangling) wiki-links. ' +
+      'Use this to map recurring entities/projects or audit broken links; prefer okf_vault_stats for high-level aggregate counts or okf_read_note to inspect one topic page. ' +
+      'Read-only and 100% offline. Takes no parameters and returns JSON with totalNotes, totalEdges, topTopics, unresolvedLinks, and edges.',
+    annotations: {
+      title: 'Build Relational Wiki-Link Topic Graph',
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
+    inputSchema: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {},
+    },
   },
   {
     name: 'okf_vault_stats',
-    description: 'Audit vault health: total notes, YAML frontmatter coverage, unique speakers, wiki-link edges, and open/completed action items.',
-    inputSchema: {type: 'object', properties: {}},
+    title: 'Audit Local Vault Health & Statistics',
+    description:
+      'Summarize overall vault health and inventory: total Markdown notes, YAML frontmatter coverage, unique speaker list, total and unresolved [[wiki-link]] counts, and open vs completed action-item totals. ' +
+      'Use this first to orient on a vault before running targeted okf_search_meetings or okf_list_action_items queries. ' +
+      'Read-only and 100% offline. Takes no parameters and returns a single JSON summary object (zeros when the vault directory is empty).',
+    annotations: {
+      title: 'Audit Local Vault Health & Statistics',
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
+    inputSchema: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {},
+    },
   },
 ];
 
@@ -338,7 +461,7 @@ export function handleMcpRequest(vaultDir, msg) {
         result: {
           protocolVersion: params?.protocolVersion || '2024-11-05',
           capabilities: {tools: {}, resources: {}},
-          serverInfo: {name: 'okf-wiki-mcp', version: '1.0.1'},
+          serverInfo: {name: 'okf-wiki-mcp', version: '1.0.3'},
         },
       };
     }

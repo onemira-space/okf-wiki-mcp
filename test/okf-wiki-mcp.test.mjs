@@ -160,3 +160,27 @@ test('6. end-to-end stdio JSON-RPC 2.0 MCP server handles initialize, tools/list
     fs.rmSync(dir, {recursive: true, force: true});
   }
 });
+
+test('7. MCP tool definitions include titles, read-only annotations, and parameter descriptions; empty vault boots cleanly', () => {
+  const emptyDir = fs.mkdtempSync(path.join(os.tmpdir(), 'okf-wiki-empty-'));
+  try {
+    const init = handleMcpRequest(emptyDir, {jsonrpc: '2.0', id: 1, method: 'initialize', params: {protocolVersion: '2024-11-05'}});
+    assert.equal(init.result.serverInfo.version, '1.0.3');
+    const list = handleMcpRequest(emptyDir, {jsonrpc: '2.0', id: 2, method: 'tools/list'});
+    assert.equal(list.result.tools.length, 5);
+    for (const tool of list.result.tools) {
+      assert.ok(tool.title && tool.title.length > 3, `missing title on ${tool.name}`);
+      assert.equal(tool.annotations?.readOnlyHint, true, `missing readOnlyHint on ${tool.name}`);
+      assert.equal(tool.annotations?.destructiveHint, false);
+      assert.equal(tool.annotations?.openWorldHint, false);
+      assert.equal(tool.inputSchema.additionalProperties, false);
+      for (const [k, prop] of Object.entries(tool.inputSchema.properties || {})) {
+        assert.ok(prop.description && prop.description.length > 15, `missing param description on ${tool.name}.${k}`);
+      }
+    }
+    const stats = handleMcpRequest(emptyDir, {jsonrpc: '2.0', id: 3, method: 'tools/call', params: {name: 'okf_vault_stats', arguments: {}}});
+    assert.equal(JSON.parse(stats.result.content[0].text).totalNotes, 0);
+  } finally {
+    fs.rmSync(emptyDir, {recursive: true, force: true});
+  }
+});

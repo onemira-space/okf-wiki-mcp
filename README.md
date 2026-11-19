@@ -1,5 +1,7 @@
 # okf-wiki-mcp
 
+[![okf-wiki-mcp MCP server](https://glama.ai/mcp/servers/onemira-space/okf-wiki-mcp/badges/score.svg)](https://glama.ai/mcp/servers/onemira-space/okf-wiki-mcp)
+
 Zero-dependency, 100% offline **Model Context Protocol (`MCP` JSON-RPC 2.0)** stdio server and CLI for querying local **Google OKF v0.2** and **Obsidian Markdown** meeting-notes vaults inside **Claude Desktop**, **Claude Code**, **Cursor**, **Windsurf**, and **OneMira**.
 
 - **Zero npm runtime dependencies** — pure Node.js `>=18` standard library (`node:fs`, `node:path`), auditable in under 350 lines.
@@ -57,8 +59,9 @@ Add to `claude_desktop_config.json` or `.cursor/mcp.json`:
 - **[`transcript-to-okf`](https://github.com/onemira-space/transcript-to-okf)** — Offline multi-vendor transcript migrator (Otter.ai, Plaud, HiNotes/HiDock, Notta, Zoom/Teams WebVTT & SRT -> OKF v0.2 Markdown).
 - **[`okf-markdown`](https://github.com/onemira-space/okf-markdown)** — OKF v0.2 schema validator & relational link linter.
 - **[`meeting-minutes-md`](https://github.com/onemira-space/meeting-minutes-md)** — 7-language (`EN/DE/FR/IT/ES/PT/KO`) agenda & meeting-minutes formatter.
-- **[`ai-voice-recorder-tco-dataset`](https://github.com/onemira-space/ai-voice-recorder-tco-dataset)** — CC-BY-4.0 2026 AI voice recorder spec & 24-month TCO calculator (`Compare 14+ models` at [onemira.com/compare](https://onemira.com/compare)).
+- **[`ai-voice-recorder-tco-dataset`](https://github.com/onemira-space/ai-voice-recorder-tco-dataset)** — CC-BY-4.0 2026 AI voice recorder spec & 24-month TCO calculator (`Compare 20+ AI voice recorders` at [onemira.com/compare](https://onemira.com/compare)).
 
 ## License
 
 MIT © [OneMira](https://onemira.com)
+- **[OneMira C1 on Amazon US (`B0HM6YDLJ4`)](https://www.amazon.com/dp/B0HM6YDLJ4)** — Standalone offline Local AI voice recorder (`$0/mo`, 30h battery, 32 GB, 85 g, 99-language Speaker ID).

@@ -7,21 +7,21 @@
     "url": "https://github.com/onemira-space/okf-wiki-mcp",
     "source": "github"
   },
-  "version": "1.0.2",
+  "version": "1.0.3",
   "websiteUrl": "https://onemira.com/docs/mcp-integration",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "okf-wiki-mcp",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "transport": {
         "type": "stdio"
       },
       "environmentVariables": [
         {
           "name": "OKF_VAULT_DIR",
-          "description": "Absolute path to your local OKF v0.2 or Obsidian Markdown meeting-notes directory.",
-          "isRequired": true,
+          "description": "Optional path to your local OKF v0.2 or Obsidian Markdown meeting-notes directory (defaults to /vault in Docker or current working directory).",
+          "isRequired": false,
           "isSecret": false
         }
       ]
