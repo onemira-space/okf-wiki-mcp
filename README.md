@@ -1,6 +1,6 @@
 # okf-wiki-mcp
 
-[![okf-wiki-mcp MCP server](https://glama.ai/mcp/servers/onemira-space/okf-wiki-mcp/badges/score.svg)](https://glama.ai/mcp/servers/onemira-space/okf-wiki-mcp)
+[![okf-wiki-mcp MCP server](https://glama.ai/mcp/servers/onemira-space/okf-wiki-mcp/badges/score.svg)](https://glama.ai/mcp/servers/onemira-space/okf-wiki-mcp) [![As seen on Open Source Alternatives](https://www.opensourcealternatives.to/badge-osa.svg)](https://www.opensourcealternatives.to)
 
 Zero-dependency, 100% offline **Model Context Protocol (`MCP` JSON-RPC 2.0)** stdio server and CLI for querying local **Google OKF v0.2** and **Obsidian Markdown** meeting-notes vaults inside **Claude Desktop**, **Claude Code**, **Cursor**, **Windsurf**, and **OneMira**.
 
